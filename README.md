@@ -12,9 +12,10 @@ And that means if you add more site, you just need to setup vhost add some confi
 
 ## Getting Started
 
-    Before all of that, we are using Laravel 9 so make sure you have a proper requirements to run this locally whether it will be from Artisan serve, Valet or Docker
+Before all of that, we are using Laravel 9 so make sure you have a proper requirements to run this locally whether it will be from Artisan serve, Valet or Docker
 
 Do the basic laravel stuff
+
     - `git clone`
     - `cp .env.example .env` update the database credentials
     - `composer install`
@@ -24,16 +25,19 @@ Do the basic laravel stuff
 Now you should be able to access the app at http://localhost:8000. Sweet
 
  Now lets create some Tenant
+
     `php artisan tenant:create --code=fb --name=Facebook --domain=localhost:8000`
 
 Notice when you reload the page. The logo is now changed to `Facebook`
 
 Now lets create another Tenant
+
     `php artisan tenant:create --code=yt --name=Youtube --domain=127.0.0.1:8000`
 
 Now visit the domain 127.0.0.1:8000 and you'll see that the logo is `Youtube` while localhost:8000 is still showing `Facebook`. Nice right?
 
 Now lets try to add some seeds to the app 
+
     `php artisan db:seeed`
 
 Now look around scenes and channels page. Notice that for every Tenant, it has its own scenes and channels. 
@@ -43,6 +47,7 @@ Tenant config are stored under `/config/tenants/{tenant-code}.php`. That means i
 It is loading the `config/tenants/yt.php`. This config will override any `config()` in the app
 
 Example: 
+
     - `config('app.name')` should be `Laravel` as it is written inside `/config/app.php`
     - but visiting the app in 127.0.0.1:8000 will override that to the `app` array inside `/config/tenants/yt.php`
     - this logic will go to any config you set whether it might be `config('queue.connections')` or any other custom config you have added

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->longText('description');
+            $table->string('domain')->nullable();
             $table->unsignedBigInteger('tenant_id');
             $table->timestamps();
 

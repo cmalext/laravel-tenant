@@ -14,7 +14,7 @@ class Scene extends Model
     {
         parent::boot();
 
-        // move this into a new scope 
+        // Tenant scope. Move this a scope
         if (!app()->runningInConsole()) {
             static::addGlobalScope('SceneTenantScope', function (Builder $builder) {
                 $channelIds = resolve('ts')->channelIds();

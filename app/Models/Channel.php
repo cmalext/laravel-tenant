@@ -17,19 +17,24 @@ class Channel extends Model
     {
         parent::boot();
 
-        // move this into a new scope 
+        // Tenant scope. Move this a scope
         if (!app()->runningInConsole()) {
             static::addGlobalScope('ChannelTenantScope', function (Builder $builder) {
                 $builder->where('tenant_id', (resolve('ts'))->tenant()->id);
             });
         }
     }
-
+    
     public function tenant()
     {
         return $this->belongsTo(Tenant::class, 'id', 'tenant_id');
     }
 
+    /**
+     * Channel thumbnail attribute
+     * 
+     * @return string
+     */
     public function getThumbnailAttribute()
     {
         return 'https://via.placeholder.com/600x300/333?text=' . $this->attributes['name'];

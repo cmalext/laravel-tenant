@@ -21,7 +21,7 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        // move this into a new scope 
+        // Tenant scope. Move this a scope
         if (!app()->runningInConsole()) {
             static::addGlobalScope('UserTenantScope', function (Builder $builder) {;
                 $builder->where('channel_id', (resolve('ts'))->tenant->id);

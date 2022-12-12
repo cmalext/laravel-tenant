@@ -2,14 +2,14 @@
 
 namespace App\Actions\Tenants;
 
-use App\Models\Series;
+use App\Models\Channel;
 use App\Models\Tenant;
 use Exception;
 
 class TenantDetector
 {
     /**
-     * Detects the tenant from http host
+     * Detects the tenant by http host
      *
      * @return Tenant
      */
@@ -33,14 +33,20 @@ class TenantDetector
             }
         }
 
+        // check if there is a channel with the domain
         try {
-            return Series::where('domain', $host)->first()->tenant;
+            return Channel::where('domain', $host)->first()->tenant;
         } catch (Exception $e) {
         }
 
         return $tenants[0];
     }
 
+    /**
+     * Default tenant
+     * 
+     * @return object
+     */
     public function defaultTenant()
     {
         return (object) [
