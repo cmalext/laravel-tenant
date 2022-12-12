@@ -17,7 +17,7 @@ class TenantServiceProvider extends ServiceProvider
     public function boot()
     {
         $tenant = (new TenantDetector)->detect();
-
+        
         self::loadTenant($tenant);
     }
 

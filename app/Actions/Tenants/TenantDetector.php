@@ -15,31 +15,35 @@ class TenantDetector
      */
     public function detect()
     {
-        $host = request()->getHttpHost();
+        try {
+            $host = request()->getHttpHost();
 
-        // put cache here
-        $tenants = Tenant::all();
+            // put cache here
+            $tenants = Tenant::all();
 
-        if ($tenants->isEmpty()) {
+            if ($tenants->isEmpty()) {
+                return $this->defaultTenant();
+            }
+
+            // put cache here
+            foreach ($tenants as $tenant) {
+                $domains = config('tenants.' . $tenant->code . '.app.domains', []);
+
+                if (in_array($host, $domains)) {
+                    return $tenant;
+                }
+            }
+
+            // check if there is a channel with the domain
+            $channel = Channel::where('domain', $host)->first();
+
+            if ($channel) return $channel->tenant;
+
+            return $tenants[0];
+        } catch (Exception $e) {
+            // no migration yet or a database connection issue
             return $this->defaultTenant();
         }
-
-        // put cache here
-        foreach ($tenants as $tenant) {
-            $domains = config('tenants.' . $tenant->code . '.app.domains', []);
-
-            if (in_array($host, $domains)) {
-                return $tenant;
-            }
-        }
-
-        // check if there is a channel with the domain
-        try {
-            return Channel::where('domain', $host)->first()->tenant;
-        } catch (Exception $e) {
-        }
-
-        return $tenants[0];
     }
 
     /**

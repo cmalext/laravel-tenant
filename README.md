@@ -19,6 +19,8 @@ Do the basic Laravel stuff
     cp .env.example .env // update the database credentials
     
     composer install
+
+    php artisan key:generate
     
     php artisan migrate
     
