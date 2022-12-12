@@ -16,41 +16,46 @@ Before all of that, we are using Laravel 9 so make sure you have a proper requir
 
 Do the basic laravel stuff
 
-    - `git clone`
-    - `cp .env.example .env` update the database credentials
-    - `composer install`
-    - `php artisan migrate`
-    - `php artisan serve`
+    git clone
+    
+    cp .env.example .env // update the database credentials
+    
+    composer install
+    
+    php artisan migrate
+    
+    php artisan serve
+
 
 Now you should be able to access the app at http://localhost:8000. Sweet
 
  Now lets create some Tenant
 
-    `php artisan tenant:create --code=fb --name=Facebook --domain=localhost:8000`
+    php artisan tenant:create --code=fb --name=Facebook --domain=localhost:8000
 
 Notice when you reload the page. The logo is now changed to `Facebook`
 
 Now lets create another Tenant
 
-    `php artisan tenant:create --code=yt --name=Youtube --domain=127.0.0.1:8000`
+    php artisan tenant:create --code=yt --name=Youtube --domain=127.0.0.1:8000
 
-Now visit the domain 127.0.0.1:8000 and you'll see that the logo is `Youtube` while localhost:8000 is still showing `Facebook`. Nice right?
+Now visit the domain `http://127.0.0.1:8000` and you'll see that the logo is `Youtube` while localhost:8000 is still showing `Facebook`. Nice right?
 
 Now lets try to add some seeds to the app 
 
-    `php artisan db:seeed`
+    php artisan db:seeed
 
 Now look around scenes and channels page. Notice that for every Tenant, it has its own scenes and channels. 
 
 ## Tenant Config
-Tenant config are stored under `/config/tenants/{tenant-code}.php`. That means if you open the site at 127.0.0.1:8000
+Tenant config are stored under `/config/tenants/{tenant-code}.php`. That means if you open the site at `http://127.0.0.1:8000`
 It is loading the `config/tenants/yt.php`. This config will override any `config()` in the app
 
 Example: 
 
-    - `config('app.name')` should be `Laravel` as it is written inside `/config/app.php`
-    - but visiting the app in 127.0.0.1:8000 will override that to the `app` array inside `/config/tenants/yt.php`
-    - this logic will go to any config you set whether it might be `config('queue.connections')` or any other custom config you have added
+- config('app.name') should be `Laravel` as it is written inside `/config/app.php`
+- but visiting the app in `http://127.0.0.1:8000` will override that to the `app` array inside `/config/tenants/yt.php`
+- this logic will go to any config you set whether it might be `config('queue.connections')` or any other custom config you have added
 
 If you go back to the tenant's config. You will notice there is an array `config('app.domain')`. 
 This is what we use to reference what Tenant we should based upon the visited domain. Given that this is an array,
