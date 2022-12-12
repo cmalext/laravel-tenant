@@ -53,14 +53,26 @@ It is loading the `config/tenants/yt.php`. This config will override any `config
 
 Example: 
 
-- config('app.name') should be `Laravel` as it is written inside `/config/app.php`
+- `config('app.name')` should be `Laravel` as it is written inside `/config/app.php`
 - but visiting the app in `http://127.0.0.1:8000` will override that to the `app` array inside `/config/tenants/yt.php`
 - this logic will go to any config you set whether it might be `config('queue.connections')` or any other custom config you have added
 
-If you go back to the tenant's config. You will notice there is an array `config('app.domain')`. 
-This is what we use to reference what Tenant we should based upon the visited domain. Given that this is an array,
-You can add more domains for a tenant.
+## Handling Tenant Domains
+If you go back to the tenant's config. You will notice there is an array `config('app.domains')`. 
+This is what we use to reference what Tenant we should load. 
+
+Therefore If you have the tenant `Youtube` domain set with `127.0.0.1:8000`, Visiting the with the host will load the `Youtube` tenant
+
+`config('app.domains')` is an array. This is so that you can set multiple domains for a specific Tenant
 
 Example:
+
     - https://youtube.test - local
     - https://youtube.com - production
+
+    'domains' => [
+        'youtube.test',
+        'youtube.com'
+    ],
+
+Enjoy!
